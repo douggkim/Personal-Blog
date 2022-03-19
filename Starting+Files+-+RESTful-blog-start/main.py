@@ -28,7 +28,8 @@ gravatar = Gravatar(app,
                     base_url=None)
 
 ##CONNECT TO DB
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL").replace('postgres://', 'postgresql://') or 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL").replace('postgres://',
+                                                                               'postgresql://') or 'sqlite:///posts.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 login_manager = LoginManager()
@@ -52,8 +53,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100))
-    posts = db.relationship("BlogPost")
-    comments = db.relationship("Comment")
+    posts = db.relationship("BlogPost", cascade="all, delete-orphan")
+    comments = db.relationship("Comment", cascade="all, delete-orphan")
 
 
 class Comment(db.Model):
@@ -188,7 +189,7 @@ def contact():
 @app.route("/delete/<int:post_id>", methods=["DELETE", "GET"])
 @admin_required
 def delete_post(post_id):
-    target_post = db.session.query(BlogPost).filter(BlogPost.id==post_id).first()
+    target_post = db.session.query(BlogPost).filter(BlogPost.id == post_id).first()
     db.session.delete(target_post)
     db.session.commit()
 
