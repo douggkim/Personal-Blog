@@ -1,0 +1,62 @@
+{% include "header.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-8 col-md-10 mx-auto">
+				<div class="post-heading">
+					<h1>{{post.title}}</h1>
+					<h2 class="subheading">{{post.subtitle}}</h2>
+					<span class="meta">Posted by
+              <a href="#">{{author.name}}</a>
+              on {{post.date}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p>
+            {{post.body | safe}}
+          </p>
+           <hr>
+           <div class="clearfix">
+          <a class="btn btn-primary float-right" href="{{url_for('edit_post', post_id=post.id)}}">Edit Post</a>
+        </div>
+          </div>
+
+          <div class="col-lg-8 col-md-10 mx-auto comment">
+              <hr>
+              <h3>Comment</h3>
+              {% for comment in comments : %}
+              <div class="comment-section">
+              <div class="comment-img">
+              <img class="gravatar" src="{{ comment[1].email | gravatar(size=80)}}">
+              </div>
+              <div class="comment-text">
+              <p> {{comment[0].body| safe}}</p>
+              <p class="comment-info">Posted by
+                  <a href="#">{{comment[1].name}}</a>
+                  on {{comment[0].date}}</p>
+              </div>
+                  </div>
+              {% endfor %}
+              </div>
+          <div class="col-lg-8 col-md-10 mx-auto">
+          {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+          </div>
+
+      </div>
+    </div>
+  </article>
+
+ {{ ckeditor.load() }}
+ {{ ckeditor.config(name='body') }}
+{% include "footer.html" %}
