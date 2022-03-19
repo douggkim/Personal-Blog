@@ -42,7 +42,7 @@ class BlogPost(db.Model):
     subtitle = db.Column(db.String(250), nullable=False)
     date = db.Column(db.String(250), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    author_id = db.Column(db.String(250), db.ForeignKey('users.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     img_url = db.Column(db.String(250), nullable=False)
 
 
