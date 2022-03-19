@@ -188,7 +188,7 @@ def contact():
 @app.route("/delete/<int:post_id>", methods=["DELETE", "GET"])
 @admin_required
 def delete_post(post_id):
-    target_post = db.session.query(BlogPost).get(post_id).first()
+    target_post = db.session.query(BlogPost).filter_by(id=post_id).first()
     db.session.delete(target_post)
     db.session.commit()
 
