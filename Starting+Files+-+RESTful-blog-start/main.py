@@ -61,7 +61,7 @@ class Comment(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("blog_post.id"), nullable=False)
     body = db.Column(db.Text, nullable=False)
     date = db.Column(db.String(250), nullable=False)
-    author_id = db.Column(db.String(250), db.ForeignKey('users.id'), nullable=False)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
 
 db.create_all()
